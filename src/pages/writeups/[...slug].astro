@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const items = await getCollection("writeups");
+  return items.map((w) => ({ params: { slug: w.slug }, props: { w } }));
+}
+
+const { w } = Astro.props;
+const { Content } = await w.render();
+---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{w.data.title} | Writeups</title>
+    <style>
+      body { font-family: system-ui; max-width: 1000px; margin: 30px auto; padding: 0 16px; }
+      pre { padding: 12px; border: 1px solid #ddd; border-radius: 12px; overflow:auto; }
+      .meta { color: #666; margin-top: -8px; }
+    </style>
+  </head>
+  <body>
+    <a href="/writeups/">← Writeups</a>
+    <h1>{w.data.title}</h1>
+    <div class="meta">
+      {w.data.ctf}{w.data.difficulty ? ` • ${w.data.difficulty}` : ""} • {w.data.date.toLocaleDateString()} • {w.data.summary}
+    </div>
+    <hr />
+    <Content />
+  </body>
+</html>

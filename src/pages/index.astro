@@ -1,0 +1,58 @@
+---
+const links = [
+  { name: "Projects", href: "/projects/" },
+  { name: "CTF Writeups", href: "/writeups/" },
+  { name: "Contact", href: "/contact/" },
+  { name: "GitHub", href: "https://github.com/tyler-rivers23", external: true },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tyler Rivers | Portfolio</title>
+    <style>
+      body { font-family: system-ui; margin: 0; background: #0b0f14; color: #e8eef6; }
+      a { color: inherit; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 18px; }
+      .nav { display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+      .links { display:flex; gap:14px; flex-wrap:wrap; }
+      .hero { margin-top: 32px; padding: 22px; border: 1px solid #1b2431; border-radius: 18px; background: rgba(255,255,255,0.02); }
+      .buttons { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+      .btn { border:1px solid #1b2431; padding:10px 14px; border-radius: 12px; background: rgba(255,255,255,0.03); }
+      .muted { color:#a9b4c2; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="nav">
+        <div><strong>Tyler Rivers</strong> <span class="muted">| Cybersecurity</span></div>
+        <div class="links">
+          {links.map((l) =>
+            l.external ? (
+              <a href={l.href} target="_blank" rel="noreferrer">{l.name}</a>
+            ) : (
+              <a href={l.href}>{l.name}</a>
+            )
+          )}
+        </div>
+      </div>
+
+      <div class="hero">
+        <h1 style="margin:0 0 8px 0;">Portfolio</h1>
+        <div class="muted">
+          Projects + CTF writeups, built with <code>Astro</code> + Markdown.
+        </div>
+
+        <div class="buttons">
+          <a class="btn" href="/projects/">View Projects</a>
+          <a class="btn" href="/writeups/">Read Writeups</a>
+          <a class="btn" href="/contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

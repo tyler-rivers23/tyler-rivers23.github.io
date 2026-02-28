@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact | Tyler Rivers</title>
+    <style>
+      body { font-family: system-ui; max-width: 800px; margin: 30px auto; padding: 0 16px; }
+      .muted { color:#666; }
+      input, textarea { width:100%; padding:10px; margin:6px 0 12px; border:1px solid #ddd; border-radius:10px; }
+      button { padding:10px 14px; border:1px solid #ddd; border-radius:10px; background:#f6f6f6; cursor:pointer; }
+    </style>
+  </head>
+  <body>
+    <a href="/">← Home</a>
+    <h1>Contact</h1>
+    <p class="muted">
+      Email: <a href="mailto:tyler.rivers2023@gmail.com">tyler.rivers2023@gmail.com</a><br/>
+      GitHub: <a href="https://github.com/tyler-rivers23" target="_blank" rel="noreferrer">tyler-rivers23</a>
+    </p>
+
+    <h2>Message form</h2>
+    <p class="muted">To make this form actually submit without a backend, connect it to a form service (Formspree / Basin / Netlify Forms).</p>
+
+    <form method="POST" action="REPLACE_WITH_YOUR_FORM_ENDPOINT">
+      <label>Name</label>
+      <input name="name" required />
+
+      <label>Email</label>
+      <input name="email" type="email" required />
+
+      <label>Message</label>
+      <textarea name="message" rows="6" required></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>
