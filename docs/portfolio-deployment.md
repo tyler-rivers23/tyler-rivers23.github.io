@@ -416,6 +416,6 @@ Recommended upgrades:
 Tyler Rivers
 Cybersecurity Student — University of Cincinnati
 GitHub: https://github.com/tyler-rivers23
-Website: httpstylergithub.io
+Website: https://tyler-rivers23.github.io
 
 ---
