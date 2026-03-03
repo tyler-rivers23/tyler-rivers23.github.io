@@ -1,37 +1,30 @@
 ---
+import MainLayout from "../../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
-  const items = await getCollection("projects");
-  return items.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+  const projects = await getCollection("projects");
+  return projects.map((p) => ({
+    params: { slug: p.slug },
+    props: { p },
+  }));
 }
 
 const { p } = Astro.props;
 const { Content } = await p.render();
 ---
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{p.data.title} | Projects</title>
-    <style>
-      body { font-family: system-ui; max-width: 1000px; margin: 30px auto; padding: 0 16px; }
-      pre { padding: 12px; border: 1px solid #ddd; border-radius: 12px; overflow:auto; }
-      .meta { color: #666; margin-top: -8px; }
-      .links { display:flex; gap:12px; flex-wrap:wrap; margin: 10px 0 18px; }
-    </style>
-  </head>
-  <body>
-    <a href="/projects/">← Projects</a>
-    <h1>{p.data.title}</h1>
-    <div class="meta">{p.data.date.toLocaleDateString()} • {p.data.summary}</div>
+<MainLayout title={`${p.data.title} | Tyler Rivers`} pageClass="">
+  <h1>{p.data.title}</h1>
+  <p class="muted">{p.data.date.toLocaleDateString()} • {p.data.summary}</p>
 
-    <div class="links">
-      {p.data.github && <a href={p.data.github} target="_blank" rel="noreferrer">GitHub</a>}
-      {p.data.demo && <a href={p.data.demo} target="_blank" rel="noreferrer">Demo</a>}
-    </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 18px;">
+    {p.data.github && <a class="btn" href={p.data.github} target="_blank" rel="noreferrer">GitHub</a>}
+    {p.data.demo && <a class="btn" href={p.data.demo} target="_blank" rel="noreferrer">Live Demo</a>}
+    <a class="btn" href="/projects/">← Back to Projects</a>
+  </div>
 
-    <Content />
-  </body>
-</html>
+  <Content />
+</MainLayout>

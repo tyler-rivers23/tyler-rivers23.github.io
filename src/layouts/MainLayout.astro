@@ -1,0 +1,192 @@
+---
+import MatrixRain from "../components/MatrixRain.astro";
+// Remove this import unless you actually have the file:
+
+const {
+  title = "Tyler Rivers | Portfolio",
+  pageClass = "",
+  links = [
+    { name: "Home", href: "/" },
+    { name: "Projects", href: "/projects/" },
+    { name: "CTF Writeups", href: "/writeups/" },
+    { name: "Contact", href: "/contact/" },
+    { name: "Resume", href: "/Resume.pdf", external: true },
+    { name: "GitHub", href: "https://github.com/tyler-rivers23", external: true },
+  ],
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+
+    <style>
+      /* Default site background */
+      body {
+        margin: 0;
+        color: #e8eef6;
+        background-color: #06090f;
+        min-height: 100vh;
+
+        background-image:
+          linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+          radial-gradient(circle at 18% 18%, rgba(0, 255, 140, 0.20), transparent 45%),
+          radial-gradient(circle at 82% 28%, rgba(0, 180, 255, 0.14), transparent 45%);
+        background-size: 40px 40px, 40px 40px, auto, auto;
+      }
+
+      /* Terminal darker background ONLY for writeups */
+      body.writeup-terminal {
+        background-color: #020507;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+          radial-gradient(circle at 20% 20%, rgba(0, 255, 140, 0.08), transparent 55%),
+          radial-gradient(circle at 80% 30%, rgba(0, 180, 255, 0.05), transparent 55%);
+        background-size: 44px 44px, 44px 44px, auto, auto;
+      }
+
+      a, a:visited {
+        color: rgba(120,255,200,0.95);
+        text-decoration: none;
+      }
+      a:hover { color: #9affde; text-decoration: none; }
+
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 18px 18px 40px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        padding: 10px 6px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .brand a, .brand a:visited { color: #e8f6f4; text-decoration: none; }
+      .links { display: flex; gap: 16px; flex-wrap: wrap; }
+
+      .panel {
+        margin-top: 18px;
+        padding: 28px;
+        border-radius: 18px;
+        background: rgba(10, 18, 24, 0.75);
+        border: 1px solid rgba(255,255,255,0.10);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+      }
+
+      .muted { color: #a9b4c2; }
+
+      /* Better buttons */
+      .btn, .btn:visited {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        background: rgba(0, 255, 170, 0.08);
+        border: 1px solid rgba(0, 255, 170, 0.4);
+        color: #7affc8;
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: rgba(0, 255, 170, 0.18);
+        border: 1px solid rgba(0, 255, 170, 0.8);
+        box-shadow: 0 0 12px rgba(0, 255, 170, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 0 6px rgba(0, 255, 170, 0.4);
+      }
+
+      /* Terminal writeup styling */
+      body.writeup-terminal .panel {
+        background: rgba(6, 12, 16, 0.78);
+        border: 1px solid rgba(0, 255, 170, 0.18);
+        box-shadow:
+          0 25px 90px rgba(0,0,0,0.55),
+          0 0 0 1px rgba(0,255,170,0.05) inset;
+
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        line-height: 1.7;
+        font-size: 16px;
+      }
+
+      body.writeup-terminal .panel :not(pre) > code {
+        padding: 2px 7px;
+        border-radius: 8px;
+        background: rgba(0,255,170,0.08);
+        border: 1px solid rgba(0,255,170,0.18);
+        color: #b9ffe6;
+      }
+
+     body.writeup-terminal {
+  background-color: #020507 !important;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 20% 20%, rgba(0, 255, 140, 0.08), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(0, 180, 255, 0.05), transparent 55%) !important;
+  background-size: 44px 44px, 44px 44px, auto, auto !important;
+      }
+
+   body.writeup-terminal .panel {
+  background: rgba(6, 12, 16, 0.86) !important;
+  border: 1px solid rgba(0, 255, 170, 0.18) !important;
+}
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+    </style>
+  </head>
+
+  <body class={pageClass}>
+    <!-- Matrix Rain (goes here, NOT in CSS) -->
+    <MatrixRain opacity={0.10} fontSize={18} speed={0.30} />
+
+    <div class="page">
+      <div class="nav">
+        <div class="brand">
+          <a href="/"><strong>Tyler Rivers</strong></a>
+          <span class="muted">| Cybersecurity</span>
+        </div>
+
+        <div class="links">
+          {links.map((l) =>
+            l.external ? (
+              <a href={l.href} target="_blank" rel="noreferrer">{l.name}</a>
+            ) : (
+              <a href={l.href}>{l.name}</a>
+            )
+          )}
+        </div>
+      </div>
+
+      <div class="panel">
+      <p class="muted">DEBUG pageClass: {pageClass}</p>
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>

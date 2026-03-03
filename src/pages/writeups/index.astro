@@ -1,35 +1,29 @@
 ---
+import MainLayout from "../../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
-const items = (await getCollection("writeups"))
-  .sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const items = (await getCollection("writeups")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CTF Writeups | Tyler Rivers</title>
-    <style>
-      body { font-family: system-ui; max-width: 1000px; margin: 30px auto; padding: 0 16px; }
-      .card { border: 1px solid #ddd; border-radius: 14px; padding: 14px 16px; margin: 12px 0; }
-      .meta { color: #666; }
-      .tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
-      .tag { border:1px solid #ddd; border-radius: 999px; padding: 2px 10px; font-size: 0.85rem; }
-      a { color: inherit; }
-    </style>
-  </head>
-  <body>
-    <a href="/">← Home</a>
-    <h1>CTF Writeups</h1>
-    {items.map(w => (
-      <div class="card">
-        <h2 style="margin:0"><a href={`/writeups/${w.slug}/`}>{w.data.title}</a></h2>
-        <div class="meta">
+<MainLayout title="CTF Writeups | Tyler Rivers">
+  <h1 style="margin:0 0 10px 0;">CTF Writeups</h1>
+  <div class="muted">Writeups from picoCTF, BearcatCTF, etc.</div>
+
+  <div style="margin-top:16px;">
+    {items.map((w) => (
+      <div style="padding:14px 0; border-top:1px solid rgba(255,255,255,0.08);">
+        <h2 style="margin:0;">
+          <a href={`/writeups/${w.slug}/`} style="color:#e8eef6; text-decoration:none;">
+            {w.data.title}
+          </a>
+        </h2>
+        <div class="muted" style="margin-top:6px;">
           {w.data.ctf}{w.data.difficulty ? ` • ${w.data.difficulty}` : ""} • {w.data.date.toLocaleDateString()}
           <br />{w.data.summary}
         </div>
-        <div class="tags">{w.data.tags.map(t => <span class="tag">{t}</span>)}</div>
       </div>
     ))}
-  </body>
-</html>
+  </div>
+</MainLayout>

