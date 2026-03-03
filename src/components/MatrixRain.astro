@@ -1,19 +1,13 @@
 ---
-<<<<<<< HEAD
-const {
-  opacity = 0.12,
-  fontSize = 18,
-  speed = 0.35,
-} = Astro.props;
+const { opacity = 0.10, fontSize = 18, speed = 0.30 } = Astro.props;
 ---
 
-<canvas id="matrix-canvas"></canvas>
+<canvas id="matrix-canvas" aria-hidden="true"></canvas>
 
 <style>
   #matrix-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
@@ -21,175 +15,52 @@ const {
   }
 </style>
 
-<script>
+<script define:vars={{ opacity, fontSize, speed }}>
   const canvas = document.getElementById("matrix-canvas");
   const ctx = canvas.getContext("2d");
 
   function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   resize();
   window.addEventListener("resize", resize);
 
   const letters = "01";
-  const fontSize = {fontSize};
-  const columns = Math.floor(window.innerWidth / fontSize);
-
-  const drops = Array(columns).fill(1);
+  const colCount = () => Math.max(1, Math.floor(window.innerWidth / fontSize));
+  let columns = colCount();
+  let drops = Array(columns).fill(1);
 
   function draw() {
+    // if window resized enough to change columns, rebuild drops
+    const newCols = colCount();
+    if (newCols !== columns) {
+      columns = newCols;
+      drops = Array(columns).fill(1);
+    }
+
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
     ctx.fillStyle = `rgba(0, 255, 140, ${opacity})`;
-    ctx.font = fontSize + "px monospace";
+    ctx.font = `${fontSize}px monospace`;
 
     for (let i = 0; i < drops.length; i++) {
-      const text = letters[Math.floor(Math.random() * letters.length)];
+      const text = letters[(Math.random() * letters.length) | 0];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.975) {
         drops[i] = 0;
       }
-
-      drops[i] += {speed};
+      drops[i] += speed;
     }
   }
 
-  setInterval(draw, 33);
+  const timer = setInterval(draw, 33);
+  window.addEventListener("beforeunload", () => clearInterval(timer));
 </script>
-=======
-import MatrixRain from "../components/MatrixRain.astro";
-
-const links = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "/projects/" },
-  { name: "CTF Writeups", href: "/writeups/" },
-  { name: "Contact", href: "/contact/" },
-  { name: "Resume", href: "/Resume.pdf", external: true },
-  { name: "GitHub", href: "https://github.com/tyler-rivers23", external: true },
-];
-
-const { title = "Tyler Rivers | Portfolio" } = Astro.props;
----
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-
-    <style>
-      :root {
-        --bg: #06090f;
-        --text: #e8eef6;
-        --muted: #a9b4c2;
-        --panel: rgba(10, 18, 24, 0.75);
-        --border: rgba(255, 255, 255, 0.10);
-        --accent: rgba(120, 255, 200, 0.95);
-      }
-
-      body {
-        margin: 0;
-        color: var(--text);
-        background-color: var(--bg);
-        min-height: 100vh;
-
-        background-image:
-          linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
-          radial-gradient(circle at 18% 18%, rgba(0, 255, 140, 0.20), transparent 45%),
-          radial-gradient(circle at 82% 28%, rgba(0, 180, 255, 0.14), transparent 45%);
-        background-size: 40px 40px, 40px 40px, auto, auto;
-      }
-
-      a, a:visited { color: var(--accent); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-
-      .page {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 18px 18px 40px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        flex-wrap: wrap;
-        padding: 10px 6px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-      }
-
-      .brand a, .brand a:visited { color: var(--text); text-decoration: none; }
-      .brand a:hover { text-decoration: none; }
-
-      .links { display: flex; gap: 16px; flex-wrap: wrap; }
-      .muted { color: var(--muted); }
-
-      .panel {
-        margin-top: 18px;
-        padding: 34px 34px;
-        border-radius: 18px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        backdrop-filter: blur(14px);
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
-      }
-
-      .btn {
-        display: inline-block;
-        border: 1px solid rgba(255,255,255,0.12);
-        padding: 10px 14px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.03);
-        color: var(--accent);
-      }
-      .btn:hover { text-decoration: none; filter: brightness(1.1); }
-
-      h1 { margin: 0 0 10px 0; font-size: 40px; letter-spacing: -0.02em; }
-      h2 { margin: 0; }
-      code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      }
-    </style>
-  </head>
-
-  <body>
-    <MatrixRain opacity={0.12} fontSize={18} speed={0.35} />
-
-    <div class="page">
-      <div class="nav">
-        <div class="brand">
-          <a href="/"><strong>Tyler Rivers</strong></a>
-          <span class="muted">| Cybersecurity</span>
-        </div>
-
-        <div class="links">
-          {links.map((l) =>
-            l.external ? (
-              <a href={l.href} target="_blank" rel="noreferrer">{l.name}</a>
-            ) : (
-              <a href={l.href}>{l.name}</a>
-            )
-          )}
-        </div>
-      </div>
-
-      <div class="panel">
-        <slot />
-      </div>
-    </div>
-  </body>
-</html>
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec

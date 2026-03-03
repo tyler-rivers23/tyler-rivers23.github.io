@@ -1,16 +1,9 @@
 ---
 import MatrixRain from "../components/MatrixRain.astro";
-<<<<<<< HEAD
-// Remove this import unless you actually have the file:
 
 const {
   title = "Tyler Rivers | Portfolio",
   pageClass = "",
-=======
-
-const {
-  title = "Tyler Rivers | Portfolio",
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
   links = [
     { name: "Home", href: "/" },
     { name: "Projects", href: "/projects/" },
@@ -29,20 +22,13 @@ const {
     <title>{title}</title>
 
     <style>
-<<<<<<< HEAD
       /* Default site background */
-=======
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
       body {
         margin: 0;
         color: #e8eef6;
         background-color: #06090f;
         min-height: 100vh;
 
-<<<<<<< HEAD
-=======
-        /* Grid + glow background */
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
         background-image:
           linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
@@ -51,7 +37,6 @@ const {
         background-size: 40px 40px, 40px 40px, auto, auto;
       }
 
-<<<<<<< HEAD
       /* Terminal darker background ONLY for writeups */
       body.writeup-terminal {
         background-color: #020507;
@@ -67,22 +52,17 @@ const {
         color: rgba(120,255,200,0.95);
         text-decoration: none;
       }
-      a:hover { color: #9affde; text-decoration: none; }
-=======
-      a, a:visited { color: rgba(120,255,200,0.95); text-decoration: none; }
-      a:hover { text-decoration: underline; }
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
+      a:hover {
+        color: #9affde;
+        text-decoration: none;
+      }
 
       .page {
         max-width: 1100px;
         margin: 0 auto;
         padding: 18px 18px 40px;
         position: relative;
-<<<<<<< HEAD
-        z-index: 1;
-=======
-        z-index: 1; /* above Matrix canvas */
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
+        z-index: 1; /* above MatrixRain canvas */
       }
 
       .nav {
@@ -100,14 +80,16 @@ const {
         gap: 10px;
       }
 
-<<<<<<< HEAD
-      .brand a, .brand a:visited { color: #e8f6f4; text-decoration: none; }
-=======
-      .brand a, .brand a:visited { color: #e8eef6; text-decoration: none; }
-      .brand a:hover { text-decoration: none; }
+      .brand a, .brand a:visited {
+        color: #e8f6f4;
+        text-decoration: none;
+      }
 
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
-      .links { display: flex; gap: 16px; flex-wrap: wrap; }
+      .links {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
 
       .panel {
         margin-top: 18px;
@@ -121,37 +103,39 @@ const {
 
       .muted { color: #a9b4c2; }
 
-<<<<<<< HEAD
-      /* Better buttons */
+      /* Buttons (non-purple, more clickable) */
       .btn, .btn:visited {
         display: inline-block;
         padding: 10px 18px;
         border-radius: 12px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        background: rgba(0, 255, 170, 0.08);
-        border: 1px solid rgba(0, 255, 170, 0.4);
+        font-weight: 700;
+        letter-spacing: 0.3px;
+
+        background: rgba(0, 255, 170, 0.10);
+        border: 1px solid rgba(0, 255, 170, 0.55);
         color: #7affc8;
-        transition: all 0.25s ease;
+
+        transition: all 0.18s ease;
         cursor: pointer;
+        user-select: none;
       }
 
       .btn:hover {
-        background: rgba(0, 255, 170, 0.18);
-        border: 1px solid rgba(0, 255, 170, 0.8);
-        box-shadow: 0 0 12px rgba(0, 255, 170, 0.6);
+        background: rgba(0, 255, 170, 0.22);
+        border-color: rgba(0, 255, 170, 0.95);
+        box-shadow: 0 0 14px rgba(0, 255, 170, 0.55);
         transform: translateY(-2px);
       }
 
       .btn:active {
         transform: translateY(0);
-        box-shadow: 0 0 6px rgba(0, 255, 170, 0.4);
+        box-shadow: 0 0 8px rgba(0, 255, 170, 0.35);
       }
 
       /* Terminal writeup styling */
       body.writeup-terminal .panel {
-        background: rgba(6, 12, 16, 0.78);
-        border: 1px solid rgba(0, 255, 170, 0.18);
+        background: rgba(6, 12, 16, 0.86);
+        border: 1px solid rgba(0, 255, 170, 0.20);
         box-shadow:
           0 25px 90px rgba(0,0,0,0.55),
           0 0 0 1px rgba(0,255,170,0.05) inset;
@@ -169,49 +153,27 @@ const {
         color: #b9ffe6;
       }
 
-     body.writeup-terminal {
-  background-color: #020507 !important;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
-    radial-gradient(circle at 20% 20%, rgba(0, 255, 140, 0.08), transparent 55%),
-    radial-gradient(circle at 80% 30%, rgba(0, 180, 255, 0.05), transparent 55%) !important;
-  background-size: 44px 44px, 44px 44px, auto, auto !important;
+      body.writeup-terminal .panel pre {
+        margin: 14px 0;
+        padding: 14px 16px;
+        border-radius: 14px;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(0,255,170,0.18);
+        box-shadow: 0 0 18px rgba(0,255,170,0.10);
       }
 
-   body.writeup-terminal .panel {
-  background: rgba(6, 12, 16, 0.86) !important;
-  border: 1px solid rgba(0, 255, 170, 0.18) !important;
-}
-
-      code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-=======
-      .btn {
-        display: inline-block;
-        border: 1px solid rgba(255,255,255,0.12);
-        padding: 10px 14px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.03);
-        color: rgba(120,255,200,0.95);
-      }
-      .btn:hover { text-decoration: none; filter: brightness(1.1); }
-
-      code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
+      body.writeup-terminal .panel pre code {
+        background: transparent;
+        border: none;
+        padding: 0;
+        color: #e8eef6;
       }
     </style>
   </head>
 
-<<<<<<< HEAD
   <body class={pageClass}>
-    <!-- Matrix Rain (goes here, NOT in CSS) -->
     <MatrixRain opacity={0.10} fontSize={18} speed={0.30} />
-=======
-  <body>
-    <MatrixRain opacity={0.12} fontSize={18} speed={0.35} />
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
 
     <div class="page">
       <div class="nav">
@@ -232,10 +194,8 @@ const {
       </div>
 
       <div class="panel">
-<<<<<<< HEAD
-      <p class="muted">DEBUG pageClass: {pageClass}</p>
-=======
->>>>>>> 35b6b166d0fa5e04cec24f43796d3918a1a40bec
+        <!-- remove this after confirming -->
+        <!-- <p class="muted">DEBUG pageClass: {pageClass}</p> -->
         <slot />
       </div>
     </div>
