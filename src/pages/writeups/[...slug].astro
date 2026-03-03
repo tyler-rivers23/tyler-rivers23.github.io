@@ -1,5 +1,6 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
+import DownloadButtons from "../../components/DownloadButtons.astro";
 import { getCollection } from "astro:content";
 
 export const prerender = true;
@@ -21,6 +22,12 @@ const { Content } = await w.render();
   <p class="muted">
     {w.data.ctf}{w.data.difficulty ? ` • ${w.data.difficulty}` : ""} • {w.data.date.toLocaleDateString()}
   </p>
+
+  <div style="display:flex; gap: 12px; flex-wrap: wrap; margin: 12px 0 16px;">
+    <a class="btn" href="/writeups/">← Back to CTF Writeups</a>
+  </div>
+
+  <DownloadButtons source={w.data.source} asm={w.data.asm} />
 
   <Content />
 </MainLayout>

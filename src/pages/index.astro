@@ -1,26 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-
-const links = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "/projects/" },
-  { name: "CTF Writeups", href: "/writeups/" },
-  { name: "Contact", href: "/contact/" },
-  { name: "Resume", href: "/Resume.pdf", external: true },
-  { name: "GitHub", href: "https://github.com/tyler-rivers23", external: true },
-];
 ---
 
-<MainLayout title="Tyler Rivers | Portfolio" links={links}>
+<MainLayout title="Tyler Rivers | Portfolio">
   <h1 style="margin:0 0 10px 0;">Portfolio</h1>
-  <p class="muted">
-    Projects + CTF writeups, built with <code>Astro</code> + Markdown.
-  </p>
+  <p class="muted">Projects + CTF writeups, built with <code>Astro</code> + Markdown.</p>
 
   <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
     <a class="btn" href="/projects/">View Projects</a>
     <a class="btn" href="/writeups/">Read Writeups</a>
     <a class="btn" href="/contact/">Contact</a>
-    <a class="btn" href="/Resume.pdf" target="_blank" rel="noreferrer">Download Resume</a>
+    <a class="btn" href="/Resume.pdf" target="_blank">Download Resume</a>
   </div>
 </MainLayout>

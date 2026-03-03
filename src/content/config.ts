@@ -13,6 +13,8 @@ const projects = defineCollection({
 
 const writeups = defineCollection({
   schema: z.object({
+    source: z.string().optional(),
+    asm: z.string().optional(),
     title: z.string(),
     date: z.date(),
     ctf: z.string(),
