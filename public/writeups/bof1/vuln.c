@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include "asm.h"
+
 
 #define BUFSIZE 32
 #define FLAGSIZE 64

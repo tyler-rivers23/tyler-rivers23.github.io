@@ -25,15 +25,6 @@ asm: "/writeups/bof1/vuln.asm"
 This binary reads a string and eventually returns from `vuln()`. If we overwrite the saved return address on the stack, we can redirect execution to `win()` (which prints the flag).  
 (Your original writeup explains this well; we’re just presenting it in a cleaner way.)  
 
----
-## Vulnerable Source Code
-```terminal
-$ cat vuln.c
-
-## Recon
-### Run the service
-
-nc <host> <port>
 --- 
 ## Vulnerability
 
@@ -41,7 +32,6 @@ In the source, the bug is inside vuln():
 
 gets(buf);
 
----
 gets() does not enforce bounds → input can overflow past buf and overwrite stack values (including the saved return address).
 
 Find the win() Address
@@ -54,7 +44,7 @@ objdump -d vuln | grep "<win>"
 
 Record the entry address for win().
 
-Offset to Return Address
+# Offset to Return Address
 
 We need the number of bytes from the start of the buffer to the saved return address.
 
@@ -64,11 +54,11 @@ From debugging / analysis, the offset is:
 
 [ buffer (44 bytes) ][ saved EIP ]
 
-Exploit Payload
+# Exploit Payload
 
 Because x86 is little-endian, the win() address must be written least-significant byte first.
 
-Python concept:
+# Python concept:
 
 from pwn import p32
 
@@ -78,11 +68,11 @@ win_addr = 0xDEADBEEF  # replace with actual
 payload = b"A" * offset + p32(win_addr)
 print(payload)
 
-Send it to the service:
+# Send it to the service:
 
 python3 exploit.py | nc <host> <port>
 
-Result
+# Result
 
 Once the saved return address is overwritten with win(), when vuln() returns, execution jumps into win() and prints the flag.
 

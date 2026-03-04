@@ -1,41 +1,48 @@
 ---
-title: "picoCTF: buffer overflow 2"
-date: 2026-02-28
+title: "picoCTF: Buffer Overflow 2"
+date: 2026-02-27
 ctf: "picoCTF"
 difficulty: "Easy"
-tags: ["pwn", "buffer-overflow", "arguments"]
-summary: "Buffer overflow used to control function arguments and trigger win()."
+summary: "A classic 32-bit stack overflow where you redirect execution to win() and also control the function arguments on the stack."
+tags:
+  - CTF
+  - Pwn
+  - Buffer Overflow
+  - x86
+source: "/writeups/bof1/vuln2.c"
+asm: "/writeups/bof1/vuln2.asm"
 ---
 
-## Overview
-This challenge extends the basic buffer overflow by requiring control of function arguments when calling `win()`.
+## TL;DR
+- Bug: unsafe input into a fixed-size stack buffer → overwrite saved return address
+- Goal: jump to `win()` **and** supply the expected arguments on the stack (cdecl)
+- Layout: `padding + win + fake_ret + arg1 + arg2`
+- Tools: Ghidra (win addr / arg values), cyclic (offset), pwntools (payload)
+
+---
+
+## Challenge Overview
+This challenge is an extension of a basic stack overflow. Instead of *only* redirecting execution to `win()`, you also have to pass the correct values as arguments to `win()` by placing them on the stack.
+
+In a typical **32-bit x86** binary using **cdecl**, arguments are passed on the stack.
+
+---
 
 ## Vulnerability
-The program reads user input into a fixed-size buffer without bounds checking (e.g., `gets()` or similar), allowing overwrite of the saved return address and stack data.
+The program reads user input into a fixed-size local buffer without proper bounds checking (ex: `gets()` or an equivalent unsafe read). That allows writing past the buffer and overwriting stack control data — including the saved return address.
 
-## Exploitation goal
-Redirect execution to `win()` and place the expected values on the stack as arguments (cdecl-style layout).
+> **Why it matters**
+> If we overwrite the saved return address, we can redirect execution to a function of our choice (like `win()`).
 
-## Payload layout (typical 32-bit)
-- padding to EIP
-- `win()` address
-- fake return address
-- `arg1`
-- `arg2`
+---
 
-## Example pwntools skeleton
-```python
-from pwn import *
+## Find `win()` and the required arguments
+In Ghidra (or `objdump`/`nm`), locate:
+1) The address of `win()`
+2) The values `win()` expects (often compared against constants in the function)
 
-offset = 44
-win = 0x08049296  # replace with your win() address
-
-payload  = b"A" * offset
-payload += p32(win)
-payload += b"BBBB"              # fake ret
-payload += p32(0xdeadbeef)      # arg1 (example)
-payload += p32(0xcafebabe)      # arg2 (example)
-
-# p = process("./vuln")
-# p.sendline(payload)
-# p.interactive()
+Examples of how to locate `win()`:
+```bash
+nm -n vuln2 | grep " win"
+# or
+objdump -d -M intel vuln2 | grep "<win>"
