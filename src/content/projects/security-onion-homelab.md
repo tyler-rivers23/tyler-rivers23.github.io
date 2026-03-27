@@ -8,11 +8,7 @@ github: "https://github.com/tyler-rivers23"
 
 ---
 
-title: "Splunk SIEM SOC Lab"
-date: 2026-03-27
-tags: ["Splunk", "SIEM", "Blue Team", "Windows Logs", "SOC"]
-summary: "Built a SOC-style lab using Splunk to detect brute force attacks, PowerShell activity, and persistence techniques from a Kali attacker."
-github: "https://github.com/tyler-rivers23/splunk-siem-lab"
+
 -----------------------------------------------------------
 
 ## What I built
